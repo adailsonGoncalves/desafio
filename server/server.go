@@ -97,7 +97,7 @@ func BuscaCotacao() (*CotacaoDolar, error) {
 }
 
 func GravarCotacao(dado *CotacaoDolar) error {
-	db, err := sql.Open("mysql", "root:root@tcp(localhost:3306)/goexpert?charset=utf8&parseTime=True&loc=Local")
+	db, err := sql.Open("mysql", "root:root@tcp(localhost:3306)/cotacaodolar?charset=utf8&parseTime=True&loc=Local")
 	if err != nil {
 		panic(err)
 	}
@@ -106,7 +106,7 @@ func GravarCotacao(dado *CotacaoDolar) error {
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Millisecond)
 	defer cancel()
 
-	_, err = db.ExecContext(ctx, "INSERT INTO cotacaodolar (name, bid) VALUES (?, ?)", dado.Name, dado.Bid)
+	_, err = db.ExecContext(ctx, "INSERT INTO cotacaoDolar (id, name, bid) VALUES (?, ?, ?)", dado.ID, dado.Name, dado.Bid)
 	if err != nil {
 		return err
 	}
